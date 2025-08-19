@@ -23,4 +23,15 @@ pipeline {
             }
         }
     }
+    stages {
+        stage('Test') {
+            steps {
+                sh '''
+                    echo 'testing for index.html
+                    test -f /workspaces/learn-jenkinsapp/build
+                '''
+                
+            }
+        }
+    }
 }
