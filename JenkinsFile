@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                     echo 'testing for index.html
-                    sh 'test -f /workspaces/learn-jenkinsapp/build'
+                    sh 'test -f build'
                 '''
                 
             }
