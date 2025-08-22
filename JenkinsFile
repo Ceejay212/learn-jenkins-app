@@ -88,10 +88,6 @@ pipeline {
                    node_modules/.bin/netlify --version
                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                    node_modules/.bin/netlify status
-                   netlify build
-                   netlify build --context deploy-preview
-                   netlify build --context branch:feat/make-it-pop
-                   node_modules/.bin/netlify deploy --dir=build --prod
                 '''
             }
         }
