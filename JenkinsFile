@@ -39,6 +39,7 @@ pipeline {
                     }
                     steps {
                         sh '''
+                            test -f build/index.html
                             npm test
                         '''
                     }
@@ -54,38 +55,41 @@ pipeline {
         stage('E2E Test') {
             agent {
                 docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm install serve
+                    node_modules/.bin/serve -s build & sleep 10
+                    npx playwright test --reporter=html
+                '''
+            }
+            post {
+                always {
+                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                }
+            }
+        }
+
+        stage('Deploy') {
+            agent {
+                docker {
                     image 'node:18-alpine'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    npm run e2e
+                    npm install netlify-cli
+                    node_modules/.bin/netlify --version
+                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+                    node_modules/.bin/netlify status
+                    node_modules/.bin/netlify deploy --dir=build --prod
                 '''
-            }
-            post {
-                always {
-                    junit 'e2e-results/junit.xml'
-                }
-            }
-        }
-
-        stage('Deploy to Netlify') {
-            agent any
-            steps {
-                script {
-                    def siteId = "${env.NETLIFY_SITE_ID}"
-                    def authToken = "${env.NETLIFY_AUTH_TOKEN}"
-                    def publishDir = "dist"
-
-                    // Install Netlify CLI
-                    sh "npm install -g netlify-cli"
-
-                    // Deploy to Netlify
-                    sh "netlify deploy --site $siteId --auth $authToken --dir $publishDir --prod"
                 }
             }
         }
     }
-}
 
