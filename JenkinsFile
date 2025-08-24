@@ -76,7 +76,7 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportName: 'playwright report', reportTitles: '', userWrapperFileDirectly: true])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportName: 'playwright report', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
@@ -109,7 +109,7 @@ pipeline {
 
             post {
                 always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportName: 'playwright report', reportTitles: '', userWrapperFileDirectly: true])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportName: 'playwright report', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
         }
@@ -139,7 +139,7 @@ pipeline {
             }
             post {
                 always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportName: 'playwright report', reportTitles: '', userWrapperFileDirectly: true])
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportName: 'playwright report', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
         }
