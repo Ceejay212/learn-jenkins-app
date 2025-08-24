@@ -130,12 +130,13 @@ pipeline {
             steps {
                 sh '''
                     node --version
-                    npm install netlify-cli
-                    node_modules/.bin/netlify --version
-                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
-                    node_modules/.bin/netlify status
-                    REACT_APP_VERSION=$REACT_APP_VERSION node_modules/.bin/netlify deploy --dir=build --prod
-                    npx playwright test  --reporter=html
+        npm install netlify-cli
+        node_modules/.bin/netlify --version
+        echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
+        node_modules/.bin/netlify status
+        echo "REACT_APP_VERSION=$REACT_APP_VERSION" > .env
+        node_modules/.bin/netlify deploy --dir=build --prod
+        npx playwright test  --reporter=html
                 '''
             }
             post {
