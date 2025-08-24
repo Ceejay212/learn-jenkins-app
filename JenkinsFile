@@ -134,10 +134,8 @@ pipeline {
                     node_modules/.bin/netlify --version
                     echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
-                    # Build with the correct version
                     REACT_APP_VERSION=$REACT_APP_VERSION npm run build
-                    # Deploy the already-built assets, skipping Netlify's build
-                    node_modules/.bin/netlify deploy --dir=build --prod --skip-build
+                    node_modules/.bin/netlify deploy --dir=build --prod
                     npx playwright test  --reporter=html
                 '''
             }
